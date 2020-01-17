@@ -1,0 +1,16 @@
+Spring Boot Starter Parent
+Spring Boot Started Web
+@SpringBootApplication
+Auto Configuration
+
+Dispatcher Servlet
+/login => "login"
+
+Search for a view name login
+"login" => src/main/webapp/WEB-INF/jsp/login.jsp
+ 
+To map this View Resolver comes into picture.
+We can specify that you have to search for the view inside that specific folder 
+inside the application.properties file by configuring a view resolver.
+
+/login => LoginController

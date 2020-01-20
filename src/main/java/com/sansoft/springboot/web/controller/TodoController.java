@@ -1,4 +1,4 @@
-package com.sansoft.springboot.web.springbootfirstwebapplication.controller;
+package com.sansoft.springboot.web.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,8 +19,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.sansoft.springboot.web.springbootfirstwebapplication.model.Todo;
-import com.sansoft.springboot.web.springbootfirstwebapplication.service.TodoService;
+import com.sansoft.springboot.web.model.Todo;
+import com.sansoft.springboot.web.service.TodoService;
 
 @Controller
 
@@ -26,7 +28,7 @@ import com.sansoft.springboot.web.springbootfirstwebapplication.service.TodoServ
  * Here we specify the @SessionAttributes("name") annotation
  * in order to use the value of the name attribute from the Session
  */
-@SessionAttributes("name")
+
 public class TodoController {
 	
 	@Autowired
@@ -49,7 +51,13 @@ public class TodoController {
 	}
 
 	private String getLoggedInUserName(ModelMap model) {
-		return (String) model.get("name");
+		Object principal = SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails)
+			return ((UserDetails) principal).getUsername();
+
+		return principal.toString();
 	}
 	
 	@RequestMapping(value = "/add-todo", method = RequestMethod.GET)

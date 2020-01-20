@@ -1,14 +1,11 @@
-package com.sansoft.springboot.web.springbootfirstwebapplication.controller;
+package com.sansoft.springboot.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-
-import com.sansoft.springboot.web.springbootfirstwebapplication.service.LoginService;
 
 // /login => "Hello World"
 /*
@@ -22,8 +19,8 @@ import com.sansoft.springboot.web.springbootfirstwebapplication.service.LoginSer
  * @SessionAttributes("name")
  * Stores the value of the name attribute on to the Session variable
  */
-@SessionAttributes("name")
-public class LoginController {
+
+public class WelcomeController {
 	
 	/*
 	 * Here the "LoginService is the dependency of the LoginController"
@@ -32,9 +29,6 @@ public class LoginController {
 	 * Spring provides a concept called "Dependency Injection(DI)"
 	 * The DI framework will make sure that the LoginService will be AutoWired
 	 */
-	
-	@Autowired
-	LoginService service;
 
 	/*
 	 * @RequestMapping()
@@ -55,9 +49,19 @@ public class LoginController {
 	/*
 	 * @RequestParam is an annotation that is use to accept the GET parameter from the URL
 	 */
-	public String showLoginMessage(ModelMap model) {
-		model.put("name", "in28Minutes");
+	public String showWelcomePage(ModelMap model) {
+		model.put("name", getLoggedInUserName());
 		return "welcome";
+	}
+	
+	public String getLoggedInUserName() {
+		Object principal = SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails)
+			return ((UserDetails) principal).getUsername();
+
+		return principal.toString();
 	}
 	
 }

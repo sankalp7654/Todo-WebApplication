@@ -1,4 +1,4 @@
-package com.sansoft.springboot.web.springbootfirstwebapplication.service;
+package com.sansoft.springboot.web.service;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.sansoft.springboot.web.springbootfirstwebapplication.model.Todo;
+import com.sansoft.springboot.web.model.Todo;
 
 @Service
 public class TodoService {

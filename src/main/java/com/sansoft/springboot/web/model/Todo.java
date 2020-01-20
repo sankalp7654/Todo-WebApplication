@@ -1,4 +1,4 @@
-package com.sansoft.springboot.web.springbootfirstwebapplication.model;
+package com.sansoft.springboot.web.model;
 
 import java.util.Date;
 
